@@ -7,7 +7,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/udistrital/plantillas_crud/models"
-	service "github.com/udistrital/plantillas_crud/services/plantilla.service"
+	"github.com/udistrital/plantillas_crud/services"
 	"github.com/udistrital/utils_oas/time_bogota"
 )
 
@@ -34,12 +34,12 @@ func (c *EstiloFuenteController) URLMapping() {
 // @router / [post]
 func (c *EstiloFuenteController) Post() {
 	horaRegistro := time_bogota.TiempoBogotaFormato()
-	var v models.Plantilla
+	var v models.EstiloFuente
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		v.FechaCreacion = horaRegistro
 		v.FechaModificacion = horaRegistro
 		fmt.Println("resultado ", v)
-		if err := service.Create(v); err == nil {
+		if err := services.CreateEstiloFuente(v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
 		} else {
@@ -65,8 +65,8 @@ func (c *EstiloFuenteController) Post() {
 // @Failure 403 :id is empty
 // @router /:id [get]
 func (c *EstiloFuenteController) GetOne() {
-	idStr := c.Ctx.Input.Param(":id")
-	v, err := service.ReadOne(idStr)
+	// idStr := c.Ctx.Input.Param(":id")
+	v, err := services.ReadEstiloFuente()
 	if err != nil {
 		logs.Error(err)
 		//c.Data["development"] = map[string]interface{}{"Code": "000", "Body": err.Error(), "Type": "error"}
@@ -91,7 +91,18 @@ func (c *EstiloFuenteController) GetOne() {
 // @Failure 403
 // @router / [get]
 func (c *EstiloFuenteController) GetAll() {
-
+	estilos, err := services.ReadEstiloFuente()
+	if err != nil {
+		logs.Error(err)
+		c.Data["mesaage"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
+		c.Abort("404")
+	} else {
+		// if plantillasData == nil {
+		// 	plantillasData = []interface{}{}
+		// }
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": estilos}
+	}
+	c.ServeJSON()
 }
 
 // Put ...
@@ -103,7 +114,24 @@ func (c *EstiloFuenteController) GetAll() {
 // @Failure 403 :id is not int
 // @router /:id [put]
 func (c *EstiloFuenteController) Put() {
-
+	idStr := c.Ctx.Input.Param(":id")
+	var v models.EstiloFuente
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		if err := services.UpdateEstiloFuente(v, idStr); err == nil {
+			c.Data["json"] = v
+		} else {
+			logs.Error(err)
+			//c.Data["development"] = map[string]interface{}{"Code": "000", "Body": err.Error(), "Type": "error"}
+			c.Data["system"] = err
+			c.Abort("400")
+		}
+	} else {
+		logs.Error(err)
+		//c.Data["development"] = map[string]interface{}{"Code": "000", "Body": err.Error(), "Type": "error"}
+		c.Data["system"] = err
+		c.Abort("400")
+	}
+	c.ServeJSON()
 }
 
 // Delete ...

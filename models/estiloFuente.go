@@ -17,3 +17,5 @@ type EstiloFuente struct {
 	FechaModificacion string             `json:"fechaModificacion"`
 	Activo            bool               `json:"activo"`
 }
+
+type EstilosFuente []*EstiloFuente

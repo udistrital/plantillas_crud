@@ -15,3 +15,5 @@ type Minuta struct {
 	FechaModificacion string             `json:"fechaModificacion"`
 	Activo            bool               `json:"activo"`
 }
+
+type Minutas []*Minuta

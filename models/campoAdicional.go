@@ -12,3 +12,5 @@ type CampoAdicional struct {
 	FechaModificacion string             `json:"fechaModificacion"`
 	Activo            bool               `json:"activo"`
 }
+
+type CamposAdicionales []*CampoAdicional

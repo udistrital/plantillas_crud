@@ -10,14 +10,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-var collection = database.GetCollection("Seccion")
+var collection = database.GetCollection("Minuta")
 var ctx = context.Background()
 
-func Create(seccion m.Seccion) error {
+func Create(minuta m.Minuta) error {
 
 	var err error
 
-	_, err = collection.InsertOne(ctx, seccion)
+	_, err = collection.InsertOne(ctx, minuta)
 
 	if err != nil {
 		return err
@@ -25,9 +25,9 @@ func Create(seccion m.Seccion) error {
 	return nil
 }
 
-func Read() (m.Secciones, error) {
+func Read() (m.Minutas, error) {
 
-	var secciones m.Secciones
+	var minutas m.Minutas
 
 	filter := bson.D{}
 
@@ -37,27 +37,27 @@ func Read() (m.Secciones, error) {
 	}
 
 	for cur.Next(ctx) {
-		var seccion m.Seccion
-		err = cur.Decode(&seccion)
+		var minuta m.Minuta
+		err = cur.Decode(&minuta)
 		if err != nil {
 			return nil, err
 		}
-		secciones = append(secciones, &seccion)
+		minutas = append(minutas, &minuta)
 	}
 
-	return secciones, nil
+	return minutas, nil
 }
 
-func Update(seccion m.Seccion, seccionId string) error {
+func Update(minuta m.Minuta, minutaId string) error {
 
 	var err error
 
-	oid, _ := primitive.ObjectIDFromHex(seccionId)
+	oid, _ := primitive.ObjectIDFromHex(minutaId)
 	filter := bson.M{"_id": oid}
 	update := bson.M{
 		"$set": bson.M{
-			"nombre":            seccion.Nombre,
-			"descrpicion":       seccion.Descripcion,
+			"nombre":            minuta.Nombre,
+			"descrpicion":       minuta.Descripcion,
 			"fechaModificacion": time.Now(),
 		},
 	}
@@ -70,11 +70,11 @@ func Update(seccion m.Seccion, seccionId string) error {
 	return nil
 }
 
-func Delete(plantillaId string) error {
+func Delete(minutaId string) error {
 
 	var err error
 	var oid primitive.ObjectID
-	oid, err = primitive.ObjectIDFromHex(plantillaId)
+	oid, err = primitive.ObjectIDFromHex(minutaId)
 	if err != nil {
 		return err
 	}

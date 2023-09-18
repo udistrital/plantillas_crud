@@ -1,11 +1,11 @@
-package plantillaservice_test
+package services_test
 
 import (
 	"fmt"
 	"testing"
 
 	m "github.com/udistrital/plantillas_crud/models"
-	plantillaService "github.com/udistrital/plantillas_crud/services/plantilla.service"
+	"github.com/udistrital/plantillas_crud/services"
 )
 
 func TestCreate(t *testing.T) {
@@ -69,7 +69,7 @@ func TestCreate(t *testing.T) {
 
 	fmt.Println("Plantilla:", plantilla)
 
-	err := plantillaService.Create(plantilla)
+	err := services.CreatePlantilla(plantilla)
 
 	if err != nil {
 		t.Error("La prueba de persistencia de datos de la plantilla falló")

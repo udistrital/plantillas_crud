@@ -1,11 +1,11 @@
-package plantillaservice
+package services
 
 import (
 	m "github.com/udistrital/plantillas_crud/models"
 	plantillaRepo "github.com/udistrital/plantillas_crud/repositories/plantilla.repository"
 )
 
-func Create(plantilla m.Plantilla) error {
+func CreatePlantilla(plantilla m.Plantilla) error {
 
 	err := plantillaRepo.Create(plantilla)
 
@@ -15,7 +15,7 @@ func Create(plantilla m.Plantilla) error {
 	return nil
 }
 
-func Read() (m.Plantillas, error) {
+func ReadPlantilla() (m.Plantillas, error) {
 
 	plantillas, err := plantillaRepo.Read()
 
@@ -26,7 +26,7 @@ func Read() (m.Plantillas, error) {
 	return plantillas, nil
 }
 
-func ReadOne(id string) (m.Plantillas, error) {
+func ReadOnePlantilla(id string) (m.Plantillas, error) {
 
 	plantillas, err := plantillaRepo.ReadOne()
 
@@ -37,7 +37,7 @@ func ReadOne(id string) (m.Plantillas, error) {
 	return plantillas, nil
 }
 
-func Update(plantilla m.Plantilla, plantillaId string) error {
+func UpdatePlantilla(plantilla m.Plantilla, plantillaId string) error {
 
 	err := plantillaRepo.Update(plantilla, plantillaId)
 
@@ -48,7 +48,7 @@ func Update(plantilla m.Plantilla, plantillaId string) error {
 	return nil
 }
 
-func Delete(plantillaId string) error {
+func DeletePlantilla(plantillaId string) error {
 
 	err := plantillaRepo.Delete(plantillaId)
 

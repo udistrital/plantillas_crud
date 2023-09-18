@@ -15,4 +15,4 @@ type Imagen struct {
 }
 
 // Lista de imagenes
-type Imagenes []Imagen
+type Imagenes []*Imagen

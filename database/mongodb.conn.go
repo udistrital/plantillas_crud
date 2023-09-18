@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	user     = "alejandro"
+	user     = ""
 	pwd      = ""
 	host     = "localhost"
 	port     = 27017
-	database = "plantillas_bd_local"
+	database = ""
 )
 
 func GetCollection(collection string) mongo.Collection {
